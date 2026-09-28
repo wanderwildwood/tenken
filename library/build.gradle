@@ -1,0 +1,31 @@
+// AndrOBD's protocol library, carried as it is: the ELM327 conversation, the OBD services,
+// and the tables of what each PID and each trouble code means. Only its desktop Swing
+// screens were left behind, since nothing here draws with them.
+apply plugin: 'java'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+compileJava {
+    options.incremental = true
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs("src/main/java")
+            include('com/fr3ts0n/ecu/prot/obd/res/*')
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.1.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}

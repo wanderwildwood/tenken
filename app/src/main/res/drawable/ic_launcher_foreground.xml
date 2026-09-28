@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The engine from the check-engine lamp: the one picture every car already uses for
+     "something is wrong under the bonnet", so it needs no learning.
+
+     Drawn to the five rules in kinokocho/tools/make-art.py: a thin line, one weight all
+     through, few strokes, crooked rather than symmetrical, and no solid black except a
+     droplet. Line weight 3.0 on the 108 grid, copied off the approved Speedometer rather
+     than derived; the drawing fills the 66 units, as the dial does. Everything sits inside the central 66 units the launcher mask keeps. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- the block, with the manifold stepping down at the back and the snout at the front -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="3.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M 28.9,46.7 L 37.6,46.1 L 38.3,39.0 L 69.2,38.3 L 75.8,45.2 L 81.4,45.0 L 82.0,52.1 L 87.0,51.5 L 86.5,65.6 L 81.6,65.1 L 81.0,72.1 L 42.0,72.9 L 36.8,65.3 L 29.4,65.6 Z" />
+
+    <!-- the filler cap on top -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="3.0"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M 48.6,38.6 L 49.2,32.0 M 42.8,31.8 L 56.5,32.5" />
+
+    <!-- the intake at the side -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="3.0"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M 29.2,55.7 L 22.2,55.9" />
+
+    <!-- a droplet of oil, the one fill a page of thin lines can carry -->
+    <path android:fillColor="#000000"
+        android:pathData="M 58.9,49.7 C 62.3,53.9 63.7,56.3 63.6,58.4 A 4.7,4.7 0 0,1 54.2,58.3 C 54.2,56.1 55.7,53.7 58.9,49.7 Z" />
+</vector>

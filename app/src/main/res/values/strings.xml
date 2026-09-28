@@ -1,0 +1,89 @@
+<resources>
+    <!-- The app's name on the launcher. A plain description of what it does -->
+    <string name="app_name">Car Check</string>
+
+    <string name="cd_close">Close</string>
+    <string name="cd_settings">Settings</string>
+    <string name="cd_about">About</string>
+
+    <!-- Home: where the connection stands. %1$s is the adapter's own Bluetooth name -->
+    <string name="home_no_adapter">Pair the adapter in the phone\'s Bluetooth settings, then choose it here. Most take the PIN 1234.</string>
+    <string name="home_not_connected">Not connected to %1$s.</string>
+    <string name="home_connecting">Connecting to %1$s…</string>
+    <string name="home_asking">%1$s is connected. Asking the car…</string>
+    <string name="home_silent">%1$s is connected, but the car is not answering. Is the key at on?</string>
+    <string name="home_ready">Talking to the car through %1$s.</string>
+    <string name="home_failed">Could not reach %1$s. Is it plugged in, with the key at on?</string>
+    <string name="home_lost">Lost the connection to %1$s.</string>
+    <string name="home_bluetooth_off">Bluetooth is off.</string>
+    <string name="home_no_permission">The app needs permission to use Bluetooth to reach the adapter, and for nothing else.</string>
+
+    <string name="home_connect">Connect</string>
+    <string name="home_disconnect">Disconnect</string>
+    <string name="home_choose_adapter">Choose the adapter</string>
+    <string name="home_allow">Allow Bluetooth</string>
+    <string name="home_open_bluetooth">Open Bluetooth settings</string>
+
+    <!-- Home: the four things the car can be asked for -->
+    <string name="home_codes">Trouble codes</string>
+    <string name="home_live">Live data</string>
+    <string name="home_freeze">Freeze frame</string>
+    <string name="home_info">Vehicle information</string>
+
+    <!-- Trouble codes -->
+    <string name="codes_lamp_on">The check-engine light is on.</string>
+    <string name="codes_lamp_off">The check-engine light is off.</string>
+    <string name="codes_reading">Reading the codes…</string>
+    <string name="codes_none">No trouble codes.</string>
+    <string name="codes_kind_stored">Stored</string>
+    <string name="codes_kind_pending">Pending — seen once, not yet confirmed</string>
+    <string name="codes_kind_permanent">Permanent — the car clears this itself once the fault is gone</string>
+    <string name="codes_read_again">Read them again</string>
+    <string name="codes_clear">Clear the codes</string>
+    <!-- The armed state of the row above: a second tap clears. The warning takes the dash, the prompt the semicolon -->
+    <string name="codes_clear_armed">Clear — this also resets the emissions readiness; tap again</string>
+    <string name="codes_clearing">Clearing…</string>
+    <string name="codes_cleared">Cleared.</string>
+    <string name="codes_refused_running">The car would not clear them. Most will only with the key at on and the engine off.</string>
+    <string name="codes_refused_unsupported">The car would not clear them. It does not take that request from this kind of tool.</string>
+    <!-- %1$s is the number the car gave as its reason, in hexadecimal, like 0x31 -->
+    <string name="codes_refused_other">The car would not clear them, and gave reason %1$s.</string>
+    <string name="codes_no_answer">The car did not say whether it cleared them. Reading them again shows which.</string>
+
+    <!-- The pages of numbers -->
+    <string name="readings_waiting">Waiting for the car…</string>
+    <string name="freeze_note">The engine as it was when the first stored code was set.</string>
+    <string name="live_none">The car is not sending any live data.</string>
+    <string name="freeze_none">There is no freeze frame. A car keeps one only while a code is stored.</string>
+    <string name="info_none">The car does not report any.</string>
+    <string name="not_talking">Not talking to the car.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_adapter">Adapter</string>
+    <string name="settings_not_chosen">Not chosen</string>
+    <string name="settings_units">Units</string>
+    <string name="settings_units_metric">Metric</string>
+    <string name="settings_units_us">US</string>
+
+    <!-- Choosing the adapter from the phone's paired devices -->
+    <string name="adapter_title">Adapter</string>
+    <string name="adapter_none">Nothing is paired yet. Pair the adapter in the phone\'s Bluetooth settings first; most take the PIN 1234.</string>
+    <string name="adapter_in_use">%1$s, in use</string>
+    <string name="adapter_close">Close</string>
+
+    <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
+    <string name="about_title">Car Check %1$s</string>
+    <string name="about_privacy">What the car says stays on the phone. The app cannot reach the network at all.</string>
+    <string name="about_sources">It reads the standard OBD-II diagnostics through an ELM327 adapter. What a maker keeps for its own tools is out of its reach.</string>
+    <string name="about_after">After AndrOBD by fr3ts0n, whose ELM327 protocol and tables of codes and readings this carries.</string>
+    <!-- The name of the app's licence -->
+    <string name="about_licence">GNU General Public License v3 or later</string>
+    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
+    <string name="about_source">github.com/wanderwildwood/tenken</string>
+    <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
+    <string name="about_feed_the_llamas">feed the llamas</string>
+    <string name="about_no_browser">There is no browser on this phone to open that with.</string>
+    <!-- Button that closes the About dialog -->
+    <string name="about_close">Close</string>
+</resources>
