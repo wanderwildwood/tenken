@@ -85,7 +85,10 @@ class CarViewModel(app: Application) : AndroidViewModel(app) {
             return
         }
         val device = runCatching { bluetooth?.getRemoteDevice(address) }.getOrNull() ?: return
-        bluetooth?.cancelDiscovery()
+        // No cancelDiscovery() here, though AndrOBD calls it first. On Android 12 it needs
+        // BLUETOOTH_SCAN, which this app never asks for because it never scans, and without it
+        // the call throws -- the first real Connect on a Kompakt closed the app. This app starts
+        // no discovery, so there is none of its own to cancel.
         car.connect(BluetoothAdapterLink(device))
     }
 
