@@ -57,6 +57,7 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(12.dp)) }
             item {
@@ -105,7 +106,7 @@ fun AdapterDialog(
         } else {
             // A phone can be paired with a great many things, so the list is MMD's own and
             // steps rather than running off the foot of the dialog.
-            LazyColumnMMD(modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp)) {
+            LazyColumnMMD(modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp), isScrollbarVisible = false) {
                 phone.paired.forEach { device ->
                     item {
                         Column(

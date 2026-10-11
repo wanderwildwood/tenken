@@ -72,6 +72,7 @@ fun CodesScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
 

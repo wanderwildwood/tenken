@@ -66,6 +66,7 @@ fun ReadingsScreen(car: CarState, page: Page, onClose: () -> Unit) {
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
 
