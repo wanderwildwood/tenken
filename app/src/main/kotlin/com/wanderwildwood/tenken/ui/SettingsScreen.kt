@@ -19,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.tenken.Paired
@@ -52,12 +51,11 @@ fun SettingsScreen(
             )
         },
     ) { contentPadding ->
-        LazyColumnMMD(
+        PagedColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
-            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(12.dp)) }
             item {
@@ -74,7 +72,6 @@ fun SettingsScreen(
                     onClick = onUnits,
                 )
             }
-            item { Spacer(Modifier.height(24.dp)) }
         }
     }
 
@@ -106,7 +103,7 @@ fun AdapterDialog(
         } else {
             // A phone can be paired with a great many things, so the list is MMD's own and
             // steps rather than running off the foot of the dialog.
-            LazyColumnMMD(modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp), isScrollbarVisible = false) {
+            PagedColumn(Modifier.fillMaxWidth().heightIn(max = 300.dp)) {
                 phone.paired.forEach { device ->
                     item {
                         Column(

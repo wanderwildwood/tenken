@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
-import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.tenken.R
@@ -81,18 +80,17 @@ fun CodesScreen(
             )
         },
     ) { contentPadding ->
-        LazyColumnMMD(
+        PagedColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
-            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
 
             if (car.link != Link.READY) {
                 item { Said(stringResource(R.string.not_talking)) }
-                return@LazyColumnMMD
+                return@PagedColumn
             }
 
             car.milOn?.let { on ->
@@ -107,8 +105,10 @@ fun CodesScreen(
                 car.codes.isEmpty() ->
                     item { Said(stringResource(R.string.codes_none)) }
                 else -> car.codes.forEach { code ->
-                    item { HorizontalDividerMMD() }
-                    item { Code(code) }
+                    item {
+                        HorizontalDividerMMD()
+                        Code(code)
+                    }
                 }
             }
 
@@ -149,7 +149,6 @@ fun CodesScreen(
                     },
                 )
             }
-            item { Spacer(Modifier.height(24.dp)) }
         }
     }
 

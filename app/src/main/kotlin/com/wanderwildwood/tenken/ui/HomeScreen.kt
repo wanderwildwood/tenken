@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
-import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.tenken.PhoneState
@@ -51,12 +50,11 @@ fun HomeScreen(
             )
         },
     ) { contentPadding ->
-        LazyColumnMMD(
+        PagedColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
-            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
             item { Connection(car, phone, onAllow, onOpenBluetooth, onChooseAdapter, onConnect, onDisconnect) }
@@ -69,7 +67,6 @@ fun HomeScreen(
                 item { Door(stringResource(R.string.home_freeze)) { onOpen(Page.FREEZE) } }
                 item { Door(stringResource(R.string.home_info)) { onOpen(Page.INFO) } }
             }
-            item { Spacer(Modifier.height(24.dp)) }
         }
     }
 }

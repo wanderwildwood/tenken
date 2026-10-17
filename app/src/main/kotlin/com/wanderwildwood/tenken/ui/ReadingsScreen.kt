@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
-import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.tenken.R
@@ -61,12 +60,11 @@ fun ReadingsScreen(car: CarState, page: Page, onClose: () -> Unit) {
             )
         },
     ) { contentPadding ->
-        LazyColumnMMD(
+        PagedColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
-            isScrollbarVisible = false,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
 
@@ -77,12 +75,14 @@ fun ReadingsScreen(car: CarState, page: Page, onClose: () -> Unit) {
                 else -> {
                     if (page == Page.FREEZE) item { Said(stringResource(R.string.freeze_note)) }
                     car.readings.forEachIndexed { index, reading ->
-                        if (index > 0) item { HorizontalDividerMMD() }
-                        item { Line(reading) }
+                        // The rule goes with the row under it, so a page never opens on a rule alone.
+                        item {
+                            if (index > 0) HorizontalDividerMMD()
+                            Line(reading)
+                        }
                     }
                 }
             }
-            item { Spacer(Modifier.height(24.dp)) }
         }
     }
 }
