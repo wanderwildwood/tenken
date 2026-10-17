@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,8 @@ import com.wanderwildwood.tenken.obd.CarState
 import com.wanderwildwood.tenken.obd.Cleared
 import com.wanderwildwood.tenken.obd.Link
 import kotlinx.coroutines.delay
+import java.text.DateFormat
+import java.util.Date
 
 /**
  * The car's trouble codes, each with what kind it is said in words, and the two things to do
@@ -48,6 +51,14 @@ fun CodesScreen(
     onClear: () -> Unit,
 ) {
     var clearArmed by remember { mutableStateOf(false) }
+    var menu by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    // After a scan: what the car said, and two places it can go from here.
+    val scanned = car.link == Link.READY && !car.readingCodes && (car.codes.isNotEmpty() || car.milOn != null)
+    val reminderTitle = stringResource(R.string.codes_reminder_title)
+    val reminder = Elsewhere.reminder(reminderTitle, car.codes.joinToString("\n") { listOf(it.code, it.description).filter(String::isNotBlank).joinToString(" — ") })
+    val canRemind = remember { Elsewhere.answered(context, reminder) } && car.codes.isNotEmpty()
+    val canKeep = remember { Elsewhere.answered(context, Elsewhere.note("", "")) }
 
     // An armed row disarms itself, so a stray tap leaves nothing live for whoever picks the
     // phone up next.
@@ -64,6 +75,9 @@ fun CodesScreen(
             TopAppBarMMD(
                 title = { TextMMD(text = stringResource(R.string.home_codes)) },
                 navigationIcon = { BarButton(Icons.Close, stringResource(R.string.cd_close), onClose) },
+                actions = {
+                    if (scanned && (canRemind || canKeep)) BarButton(Icons.More, stringResource(R.string.cd_more)) { menu = true }
+                },
             )
         },
     ) { contentPadding ->
@@ -138,6 +152,53 @@ fun CodesScreen(
             item { Spacer(Modifier.height(24.dp)) }
         }
     }
+
+    if (menu) {
+        val kept = keptText(car)
+        EInkDialog(onDismiss = { menu = false }) {
+            if (canRemind) {
+                Door(stringResource(R.string.codes_remind_me)) {
+                    menu = false
+                    Elsewhere.open(context, reminder)
+                }
+            }
+            if (canKeep) {
+                Door(stringResource(R.string.codes_keep_in_notes)) {
+                    menu = false
+                    Elsewhere.open(context, Elsewhere.note(kept.first, kept.second))
+                }
+            }
+        }
+    }
+}
+
+/**
+ * The scan as a note: its title, with the day, and the text — when, the light, and each code
+ * with what it means and what kind it is. The app does not read the odometer, so no mileage.
+ */
+@Composable
+private fun keptText(car: CarState): Pair<String, String> {
+    val now = Date()
+    val day = DateFormat.getDateInstance(DateFormat.MEDIUM).format(now)
+    val time = android.text.format.DateFormat.getTimeFormat(LocalContext.current).format(now)
+    val lines = mutableListOf("$day, $time")
+    car.milOn?.let { lines += stringResource(if (it) R.string.codes_lamp_on else R.string.codes_lamp_off) }
+    if (car.codes.isEmpty()) {
+        lines += ""
+        lines += stringResource(R.string.codes_none)
+    }
+    car.codes.forEach { code ->
+        lines += ""
+        lines += listOf(code.code, code.description).filter(String::isNotBlank).joinToString(" — ")
+        lines += stringResource(kindOf(code.kind))
+    }
+    return stringResource(R.string.codes_note_title, day) to lines.joinToString("\n") + "\n"
+}
+
+private fun kindOf(kind: CodeKind): Int = when (kind) {
+    CodeKind.STORED -> R.string.codes_kind_stored
+    CodeKind.PENDING -> R.string.codes_kind_pending
+    CodeKind.PERMANENT -> R.string.codes_kind_permanent
 }
 
 @Composable
@@ -149,13 +210,7 @@ private fun Code(code: TroubleCode) {
         }
         Spacer(Modifier.height(2.dp))
         TextMMD(
-            text = stringResource(
-                when (code.kind) {
-                    CodeKind.STORED -> R.string.codes_kind_stored
-                    CodeKind.PENDING -> R.string.codes_kind_pending
-                    CodeKind.PERMANENT -> R.string.codes_kind_permanent
-                },
-            ),
+            text = stringResource(kindOf(code.kind)),
             style = MaterialTheme.typography.labelSmall,
         )
     }
