@@ -1,7 +1,11 @@
 package com.wanderwildwood.tenken.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
@@ -37,41 +41,80 @@ fun AboutDialog(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
         TextMMD(
             text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Medium,
         )
+        Spacer(Modifier.height(10.dp))
+
+        // Longer than a screen, so it steps a page at a time like every list here.
+        PagedColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp)) {
+            item { Section(R.string.about_privacy_head, R.string.about_privacy) }
+            item { Section(R.string.about_terms_head, R.string.about_terms) }
+            item { Section(R.string.about_disclaimer_head, R.string.about_disclaimer) }
+            item { Section(R.string.about_sources_head, R.string.about_sources) }
+            item { Section(null, R.string.about_after) }
+            item {
+                Column(Modifier.padding(bottom = 14.dp)) {
+                    Heading(R.string.about_licences_head)
+                    TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.bodyMedium)
+                    TextMMD(text = stringResource(R.string.about_libraries), style = MaterialTheme.typography.bodyMedium)
+                    TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+            item { Link(R.string.about_source, "https://github.com/wanderwildwood/tenken") }
+            item { Llama() }
+        }
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_privacy),
-            style = MaterialTheme.typography.labelSmall,
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_sources),
-            style = MaterialTheme.typography.labelSmall,
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_after),
-            style = MaterialTheme.typography.labelSmall,
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall)
-        TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall)
-        TextMMD(text = stringResource(R.string.about_source), style = MaterialTheme.typography.labelSmall)
-
-        Spacer(Modifier.height(14.dp))
-        Llama()
-
-        Spacer(Modifier.height(18.dp))
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
-        ) { TextMMD(text = stringResource(R.string.about_close), style = MaterialTheme.typography.bodySmall) }
+        ) { TextMMD(text = stringResource(R.string.about_close), style = MaterialTheme.typography.bodyMedium) }
+    }
+}
+
+@Composable
+private fun Heading(title: Int) {
+    TextMMD(
+        text = stringResource(title),
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Medium,
+        modifier = Modifier.padding(bottom = 4.dp),
+    )
+}
+
+@Composable
+private fun Section(title: Int?, body: Int) {
+    Column(Modifier.fillMaxWidth().padding(bottom = 14.dp)) {
+        if (title != null) Heading(title)
+        TextMMD(text = stringResource(body), style = MaterialTheme.typography.bodyMedium)
+    }
+}
+
+/** A web address that opens in the browser, if the phone has one, on a 48 dp row. */
+@Composable
+private fun Link(label: Int, address: String) {
+    val context = LocalContext.current
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 48.dp)
+            .clickable { open(context, address) },
+    ) {
+        TextMMD(
+            text = stringResource(label),
+            style = MaterialTheme.typography.bodyMedium,
+            textDecoration = TextDecoration.Underline,
+        )
+    }
+}
+
+private fun open(context: android.content.Context, address: String) {
+    runCatching {
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(address)))
+    }.onFailure {
+        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -95,39 +138,22 @@ private fun Llama() {
     ) {
         TextMMD(
             text = "wanderthe.dev",
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.bodyMedium,
             // The site's address opens the site, the way the llama beside it opens its page.
             modifier = Modifier
-                .clickable {
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://wanderthe.dev")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .padding(vertical = 4.dp),
+                .heightIn(min = 48.dp)
+                .clickable { open(context, "https://wanderthe.dev") }
+                .wrapContentHeight(Alignment.CenterVertically),
         )
-        Spacer(Modifier.width(6.dp))
+        Spacer(Modifier.width(12.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .clickable {
-                    // Straight to the checkout. The Donate button on the site only leads
-                    // here anyway, so the page in between is a press the reader does not need.
-                    // The short square.link form, not the long checkout.square.site address it
-                    // redirects to -- the short one is what the site itself links to, so a
-                    // regenerated checkout follows it and a published app does not break.
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://square.link/u/AGu8oT10")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .padding(vertical = 4.dp),
+                .heightIn(min = 48.dp)
+                // Straight to the checkout. The short square.link form, not the long
+                // checkout.square.site address it redirects to: the site links to the short one,
+                // so a regenerated checkout follows it and a published app does not break.
+                .clickable { open(context, "https://square.link/u/AGu8oT10") },
         ) {
             Image(
                 painter = painterResource(R.drawable.llama),
@@ -135,7 +161,7 @@ private fun Llama() {
                 modifier = Modifier.size(22.dp),
             )
             Spacer(Modifier.width(6.dp))
-            TextMMD(text = stringResource(R.string.about_feed_the_llamas), style = MaterialTheme.typography.labelSmall)
+            TextMMD(text = stringResource(R.string.about_feed_the_llamas), style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

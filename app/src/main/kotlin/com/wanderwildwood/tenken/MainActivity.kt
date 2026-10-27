@@ -2,6 +2,7 @@ package com.wanderwildwood.tenken
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.WindowManager
@@ -11,6 +12,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.core.app.ActivityCompat
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,7 +63,26 @@ private fun CarCheck(viewModel: CarViewModel = viewModel()) {
     var choosing by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { viewModel.refresh() }
+    val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        val activity = context as? ComponentActivity
+        val canAskAgain = activity != null &&
+            ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.BLUETOOTH_CONNECT)
+        viewModel.permissionAnswered(granted, canAskAgain)
+    }
+    val allow = {
+        // Once Android has stopped asking, the launcher answers "no" at once and shows
+        // nothing, which reads as a button that does nothing. Go to the settings page instead.
+        if (viewModel.phone.value.blocked) {
+            runCatching {
+                context.startActivity(
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}")),
+                )
+            }
+        } else {
+            ask.launch(Manifest.permission.BLUETOOTH_CONNECT)
+        }
+        Unit
+    }
     val openBluetooth = {
         runCatching { context.startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS)) }
         Unit
@@ -98,7 +119,7 @@ private fun CarCheck(viewModel: CarViewModel = viewModel()) {
             car = car,
             phone = phone,
             onSettings = { screen = Screen.SETTINGS },
-            onAllow = { ask.launch(Manifest.permission.BLUETOOTH_CONNECT) },
+            onAllow = allow,
             onOpenBluetooth = openBluetooth,
             onChooseAdapter = { viewModel.refresh(); choosing = true },
             onConnect = viewModel::connect,
@@ -136,6 +157,7 @@ private fun CarCheck(viewModel: CarViewModel = viewModel()) {
                 viewModel.choose(it)
                 choosing = false
             },
+            onAllow = allow,
             onOpenBluetooth = openBluetooth,
             onDismiss = { choosing = false },
         )

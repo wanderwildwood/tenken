@@ -22,6 +22,8 @@
     <string name="home_connect">Connect</string>
     <string name="home_disconnect">Disconnect</string>
     <string name="home_choose_adapter">Choose the adapter</string>
+    <string name="home_permission_blocked">Bluetooth permission was turned down and Android will not ask again. Allow it in the app\'s settings under Permissions, then come back.</string>
+    <string name="home_open_app_settings">Open app settings</string>
     <string name="home_allow">Allow Bluetooth</string>
     <string name="home_open_bluetooth">Open Bluetooth settings</string>
 
@@ -76,19 +78,31 @@
 
     <!-- Choosing the adapter from the phone's paired devices -->
     <string name="adapter_title">Adapter</string>
+    <string name="adapter_no_permission">The app needs permission to use Bluetooth before it can list the paired adapters.</string>
+    <string name="adapter_permission_blocked">Bluetooth permission was turned down and Android will not ask again. Allow it in the app\'s settings under Permissions.</string>
+    <string name="adapter_bluetooth_off">Bluetooth is off. Turn it on, then choose the adapter.</string>
     <string name="adapter_none">Nothing is paired yet. Pair the adapter in the phone\'s Bluetooth settings first; most take the PIN 1234.</string>
     <string name="adapter_in_use">%1$s, in use</string>
     <string name="adapter_close">Close</string>
 
     <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
     <string name="about_title">Car Check %1$s</string>
-    <string name="about_privacy">What the car says stays on the phone. The app cannot reach the network at all.</string>
+    <string name="about_privacy_head">Privacy</string>
+    <string name="about_privacy">What the car says stays on this phone. The app has no internet access, so nothing is sent anywhere and nothing is collected about you. The one permission it asks for is Bluetooth, to talk to the adapter you pair. It remembers only which adapter you chose and your units. If you choose Remind me or Keep in Notes after a scan, the codes go to the calendar or Notes app on this phone, and nowhere else. There are no ads, no analytics and no tracking.</string>
+    <string name="about_terms_head">Terms</string>
+    <string name="about_terms">This app is free software under the GNU General Public License. It comes with no warranty: use it at your own risk.</string>
+    <string name="about_disclaimer_head">Diagnostics and safety</string>
+    <string name="about_disclaimer">Readings come from your car\'s own computer through an adapter and can be wrong. Do not use the app while driving. Have faults checked by a mechanic.</string>
+    <string name="about_sources_head">What it reads</string>
     <string name="about_sources">It reads the standard OBD-II diagnostics through an ELM327 adapter. What a maker keeps for its own tools is out of its reach.</string>
     <string name="about_after">After AndrOBD by fr3ts0n, whose ELM327 protocol and tables of codes and readings this carries.</string>
+    <string name="about_licences_head">Licences</string>
     <!-- The name of the app's licence -->
-    <string name="about_licence">GNU General Public License v3 or later</string>
+    <string name="about_licence">Car Check: GNU General Public License v3 or later</string>
+    <string name="about_libraries">AndroidX and Kotlin: Apache 2.0. Lato typeface: SIL Open Font License 1.1.</string>
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
-    <string name="about_source">github.com/wanderwildwood/tenken</string>
+    <!-- A web address that opens the app\'s source code -->
+    <string name="about_source">Source code: github.com/wanderwildwood/tenken</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
     <string name="about_feed_the_llamas">feed the llamas</string>
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>

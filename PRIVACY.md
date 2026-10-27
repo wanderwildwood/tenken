@@ -28,6 +28,10 @@ It is turned into the words and numbers on the screen and then thrown away. The 
 no history, no log of codes or readings, and no file of any kind holding them — including
 the car's identity number, which the vehicle information page shows and does not store.
 
+After a scan, **Remind me** and **Keep in Notes** hand the codes to the calendar app or the
+Notes app on the phone, if one is installed, and only when you press them. Nothing else
+leaves the app, and Android's cloud backup is turned off for it (`allowBackup="false"`).
+
 The only things written to storage are the adapter you chose (its Bluetooth name and
 address) and whether you want metric or US units, in `SharedPreferences`; see
 `CarViewModel.kt`.
@@ -60,3 +64,9 @@ app can hold it, and it exists so a runtime-registered broadcast receiver is not
 to other apps. It grants access to nothing.
 
 There is no `INTERNET` in that list, which is the claim above without having to trust me.
+
+## Diagnostics and safety
+
+Readings come from your car's own computer through an adapter and can be wrong. Do not use
+the app while driving. Have faults checked by a mechanic. The app is free software under the
+GNU General Public License and comes with no warranty.

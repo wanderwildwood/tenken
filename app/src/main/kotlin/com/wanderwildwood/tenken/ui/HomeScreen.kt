@@ -87,8 +87,13 @@ private fun Connection(
     // at once would leave the reader to work out which one to fix.
     when {
         !phone.permitted -> {
-            Said(stringResource(R.string.home_no_permission))
-            WideButton(stringResource(R.string.home_allow), onAllow)
+            if (phone.blocked) {
+                Said(stringResource(R.string.home_permission_blocked))
+                WideButton(stringResource(R.string.home_open_app_settings), onAllow)
+            } else {
+                Said(stringResource(R.string.home_no_permission))
+                WideButton(stringResource(R.string.home_allow), onAllow)
+            }
         }
         !phone.bluetoothOn -> {
             Said(stringResource(R.string.home_bluetooth_off))

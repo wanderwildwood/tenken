@@ -96,11 +96,11 @@ fun ReadingsScreen(car: CarState, page: Page, onClose: () -> Unit) {
 private fun Line(reading: Reading) {
     if ('\n' in reading.value || reading.value.length > 12) {
         Column(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)) {
-            TextMMD(text = reading.label, style = MaterialTheme.typography.bodySmall)
+            TextMMD(text = reading.label, style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(2.dp))
             TextMMD(
                 text = listOf(reading.value, reading.unit).filter { it.isNotBlank() }.joinToString(" "),
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
         return
@@ -112,14 +112,14 @@ private fun Line(reading: Reading) {
     ) {
         TextMMD(
             text = reading.label,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f).padding(end = 12.dp),
         )
         Row(verticalAlignment = Alignment.Bottom) {
-            TextMMD(text = reading.value, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Medium)
+            TextMMD(text = reading.value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Medium)
             if (reading.unit.isNotBlank()) {
                 Spacer(Modifier.size(5.dp))
-                TextMMD(text = reading.unit, style = MaterialTheme.typography.labelSmall)
+                TextMMD(text = reading.unit, style = MaterialTheme.typography.bodyMedium)
             }
         }
     }

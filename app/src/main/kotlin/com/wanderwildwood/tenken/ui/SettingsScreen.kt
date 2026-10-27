@@ -89,15 +89,28 @@ fun SettingsScreen(
 fun AdapterDialog(
     phone: PhoneState,
     onChoose: (Paired) -> Unit,
+    onAllow: () -> Unit,
     onOpenBluetooth: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     EInkDialog(onDismiss = onDismiss) {
-        TextMMD(text = stringResource(R.string.adapter_title), style = MaterialTheme.typography.bodyLarge)
+        TextMMD(text = stringResource(R.string.adapter_title), style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(10.dp))
 
-        if (phone.paired.isEmpty()) {
-            TextMMD(text = stringResource(R.string.adapter_none), style = MaterialTheme.typography.labelSmall)
+        // Three different reasons for an empty list, each with its own way out.
+        if (!phone.permitted) {
+            TextMMD(
+                text = stringResource(if (phone.blocked) R.string.adapter_permission_blocked else R.string.adapter_no_permission),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Spacer(Modifier.height(14.dp))
+            WideButton(stringResource(if (phone.blocked) R.string.home_open_app_settings else R.string.home_allow), onAllow)
+        } else if (!phone.bluetoothOn) {
+            TextMMD(text = stringResource(R.string.adapter_bluetooth_off), style = MaterialTheme.typography.bodyMedium)
+            Spacer(Modifier.height(14.dp))
+            WideButton(stringResource(R.string.home_open_bluetooth), onOpenBluetooth)
+        } else if (phone.paired.isEmpty()) {
+            TextMMD(text = stringResource(R.string.adapter_none), style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(14.dp))
             WideButton(stringResource(R.string.home_open_bluetooth), onOpenBluetooth)
         } else {
@@ -110,6 +123,7 @@ fun AdapterDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable { onChoose(device) }
+                                .heightIn(min = 48.dp)
                                 .padding(vertical = 12.dp),
                         ) {
                             TextMMD(
@@ -118,7 +132,7 @@ fun AdapterDialog(
                                 } else {
                                     device.name
                                 },
-                                style = MaterialTheme.typography.titleSmall,
+                                style = MaterialTheme.typography.titleMedium,
                             )
                         }
                     }

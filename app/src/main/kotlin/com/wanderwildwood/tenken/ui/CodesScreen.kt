@@ -63,7 +63,7 @@ fun CodesScreen(
     // phone up next.
     LaunchedEffect(clearArmed) {
         if (clearArmed) {
-            delay(4000)
+            delay(6000)
             clearArmed = false
         }
     }
@@ -205,12 +205,12 @@ private fun Code(code: TroubleCode) {
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)) {
         TextMMD(text = code.code, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         if (code.description.isNotBlank()) {
-            TextMMD(text = code.description, style = MaterialTheme.typography.bodySmall)
+            TextMMD(text = code.description, style = MaterialTheme.typography.bodyMedium)
         }
         Spacer(Modifier.height(2.dp))
         TextMMD(
             text = stringResource(kindOf(code.kind)),
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }

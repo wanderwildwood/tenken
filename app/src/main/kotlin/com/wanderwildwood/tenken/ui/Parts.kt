@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -41,21 +42,22 @@ internal fun Door(title: String, note: String? = null, bold: Boolean = false, on
         modifier = Modifier
             .fillMaxWidth()
             .let { if (onClick != null) it.clickable(onClick = onClick) else it }
+            .heightIn(min = 48.dp)
             .padding(vertical = 14.dp),
     ) {
         TextMMD(
             text = title,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = if (bold) FontWeight.Bold else null,
         )
-        if (note != null) TextMMD(text = note, style = MaterialTheme.typography.labelSmall)
+        if (note != null) TextMMD(text = note, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
 /** A plain sentence about where things stand. */
 @Composable
 internal fun Said(text: String, modifier: Modifier = Modifier) {
-    TextMMD(text = text, style = MaterialTheme.typography.bodySmall, modifier = modifier.padding(vertical = 10.dp))
+    TextMMD(text = text, style = MaterialTheme.typography.bodyMedium, modifier = modifier.padding(vertical = 10.dp))
 }
 
 @Composable
@@ -63,5 +65,5 @@ internal fun WideButton(text: String, onClick: () -> Unit) {
     OutlinedButtonMMD(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth().height(48.dp),
-    ) { TextMMD(text = text, style = MaterialTheme.typography.bodySmall) }
+    ) { TextMMD(text = text, style = MaterialTheme.typography.bodyMedium) }
 }

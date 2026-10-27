@@ -24,6 +24,8 @@ data class Paired(val name: String, val address: String)
 data class PhoneState(
     val bluetoothOn: Boolean = true,
     val permitted: Boolean = false,
+    /** Android has stopped asking: only the app's own settings page can grant it now. */
+    val blocked: Boolean = false,
     val paired: List<Paired> = emptyList(),
     /** The adapter to use, by address; empty until one is chosen. */
     val adapter: String = "",
@@ -43,6 +45,7 @@ class CarViewModel(app: Application) : AndroidViewModel(app) {
             adapter = prefs.getString(KEY_ADAPTER, "").orEmpty(),
             adapterName = prefs.getString(KEY_ADAPTER_NAME, "").orEmpty(),
             usUnits = prefs.getBoolean(KEY_US_UNITS, false),
+            blocked = prefs.getBoolean(KEY_BLOCKED, false),
         ),
     )
     val phone: StateFlow<PhoneState> = _phone.asStateFlow()
@@ -68,7 +71,20 @@ class CarViewModel(app: Application) : AndroidViewModel(app) {
             emptyList()
         }
         val withSimulator = if (BuildConfig.DEBUG) paired + Paired(SIMULATED_NAME, SIMULATED) else paired
-        _phone.update { it.copy(bluetoothOn = on, permitted = permitted, paired = withSimulator) }
+        if (permitted && prefs.getBoolean(KEY_BLOCKED, false)) prefs.edit().putBoolean(KEY_BLOCKED, false).apply()
+        _phone.update { it.copy(bluetoothOn = on, permitted = permitted, blocked = !permitted && it.blocked, paired = withSimulator) }
+    }
+
+    /**
+     * The answer to the permission prompt. A "no" that Android would not even explain
+     * (no rationale, and it never showed) means the prompt will not come again, so the
+     * Allow button has to become a way to the app's settings page.
+     */
+    fun permissionAnswered(granted: Boolean, canAskAgain: Boolean) {
+        val blocked = !granted && !canAskAgain
+        prefs.edit().putBoolean(KEY_BLOCKED, blocked).apply()
+        _phone.update { it.copy(blocked = blocked) }
+        refresh()
     }
 
     fun choose(device: Paired) {
@@ -113,6 +129,7 @@ class CarViewModel(app: Application) : AndroidViewModel(app) {
     private companion object {
         const val KEY_ADAPTER = "adapter"
         const val KEY_ADAPTER_NAME = "adapter_name"
+        const val KEY_BLOCKED = "permission_blocked"
         const val KEY_US_UNITS = "us_units"
         const val SIMULATED = "simulated"
         const val SIMULATED_NAME = "Simulated adapter"
