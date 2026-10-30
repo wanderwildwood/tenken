@@ -39,7 +39,7 @@ import java.util.Date
  * about them: read them again, or clear them.
  *
  * Pending is spelled out rather than drawn. AndrOBD marked it with a small clock, and on
- * this panel a pending P2647 sat beside a stored P0139 looking like its equal.
+ * this panel a pending P0301 sat beside a stored P0139 looking like its equal.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

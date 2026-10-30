@@ -43,7 +43,7 @@ class CarTest {
         val codes = car.state.value.codes
         assertEquals("P0139", codes[0].code)
         assertEquals(CodeKind.STORED, codes[0].kind)
-        assertEquals("P2647", codes[1].code)
+        assertEquals("P0301", codes[1].code)
         assertEquals(CodeKind.PENDING, codes[1].kind)
         assertEquals(true, car.state.value.milOn)
     }

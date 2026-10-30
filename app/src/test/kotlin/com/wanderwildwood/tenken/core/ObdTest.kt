@@ -17,13 +17,13 @@ class ObdTest {
     @Test
     fun aCodeReadTwiceIsShownOnceUnderItsMostPressingKind() {
         val shown = listOf(
-            TroubleCode("P2647", "rocker arm", CodeKind.PENDING),
+            TroubleCode("P0301", "cylinder 1 misfire", CodeKind.PENDING),
             TroubleCode("P0420", "catalyst", CodeKind.PERMANENT),
             TroubleCode("P0139", "O2 sensor", CodeKind.STORED),
             TroubleCode("P0420", "catalyst", CodeKind.STORED),
         ).forShowing()
 
-        assertEquals(listOf("P0139", "P0420", "P2647"), shown.map { it.code })
+        assertEquals(listOf("P0139", "P0420", "P0301"), shown.map { it.code })
         assertEquals(CodeKind.STORED, shown.first { it.code == "P0420" }.kind)
     }
 

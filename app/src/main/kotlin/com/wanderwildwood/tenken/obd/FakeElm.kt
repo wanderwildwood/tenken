@@ -31,7 +31,7 @@ class FakeElm : Adapter {
     private var headers = false
     private var clearsRefused = 0
     private var stored = listOf(0x0139)
-    private var pending = listOf(0x2647)
+    private var pending = listOf(0x0301)
     private var milOn = true
 
     /** How many clear requests to refuse before accepting one. */
@@ -108,7 +108,7 @@ class FakeElm : Adapter {
             val frame = request.substring(4)
             when {
                 pid == 0 -> "4200$frame" + mask(SUPPORTED)
-                pid == 2 -> "4202${frame}2647"
+                pid == 2 -> "4202${frame}0301"
                 else -> frozen(pid)?.let { "42%02X".format(pid) + frame + it }
             }
         }
