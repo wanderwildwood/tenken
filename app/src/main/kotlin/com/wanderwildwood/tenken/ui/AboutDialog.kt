@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,7 +42,12 @@ import com.wanderwildwood.tenken.R
  */
 @Composable
 fun AboutDialog(onDismiss: () -> Unit) {
+    var licences by rememberSaveable { mutableStateOf(false) }
     EInkDialog(onDismiss = onDismiss) {
+        if (licences) {
+            LicencesPage(onBack = { licences = false }, room = 420.dp)
+            return@EInkDialog
+        }
         TextMMD(
             text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
             style = MaterialTheme.typography.titleMedium,
@@ -54,14 +63,17 @@ fun AboutDialog(onDismiss: () -> Unit) {
             item { Section(R.string.about_sources_head, R.string.about_sources) }
             item { Section(null, R.string.about_after) }
             item {
-                Column(Modifier.padding(bottom = 14.dp)) {
-                    Heading(R.string.about_licences_head)
-                    TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.bodyMedium)
-                    TextMMD(text = stringResource(R.string.about_libraries), style = MaterialTheme.typography.bodyMedium)
-                    TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.bodyMedium)
-                }
+                TextMMD(
+                    text = stringResource(R.string.about_licences),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 48.dp)
+                        .clickable { licences = true }
+                        .wrapContentHeight(Alignment.CenterVertically),
+                )
             }
-            item { Link(R.string.about_source, "https://github.com/wanderwildwood/tenken") }
             item { Llama() }
         }
 
@@ -88,25 +100,6 @@ private fun Section(title: Int?, body: Int) {
     Column(Modifier.fillMaxWidth().padding(bottom = 14.dp)) {
         if (title != null) Heading(title)
         TextMMD(text = stringResource(body), style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-/** A web address that opens in the browser, if the phone has one, on a 48 dp row. */
-@Composable
-private fun Link(label: Int, address: String) {
-    val context = LocalContext.current
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .clickable { open(context, address) },
-    ) {
-        TextMMD(
-            text = stringResource(label),
-            style = MaterialTheme.typography.bodyMedium,
-            textDecoration = TextDecoration.Underline,
-        )
     }
 }
 

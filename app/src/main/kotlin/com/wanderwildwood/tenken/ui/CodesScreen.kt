@@ -55,8 +55,8 @@ fun CodesScreen(
     // After a scan: what the car said, and two places it can go from here.
     val scanned = car.link == Link.READY && !car.readingCodes && (car.codes.isNotEmpty() || car.milOn != null)
     val reminderTitle = stringResource(R.string.codes_reminder_title)
-    val reminder = Elsewhere.reminder(reminderTitle, car.codes.joinToString("\n") { listOf(it.code, it.description).filter(String::isNotBlank).joinToString(" — ") })
-    val canRemind = remember { Elsewhere.answered(context, reminder) } && car.codes.isNotEmpty()
+    val reminderText = car.codes.joinToString("\n") { listOf(it.code, it.description).filter(String::isNotBlank).joinToString(" — ") }
+    val canRemind = remember { Elsewhere.answered(context, Elsewhere.reminder(reminderTitle, reminderText)) } && car.codes.isNotEmpty()
     val canKeep = remember { Elsewhere.answered(context, Elsewhere.note("", "")) }
 
     // An armed row disarms itself, so a stray tap leaves nothing live for whoever picks the
@@ -158,7 +158,8 @@ fun CodesScreen(
             if (canRemind) {
                 Door(stringResource(R.string.codes_remind_me)) {
                     menu = false
-                    Elsewhere.open(context, reminder)
+                    // Built now, not when the screen opened, so the time it carries is the time of the tap.
+                    Elsewhere.open(context, Elsewhere.reminder(reminderTitle, reminderText))
                 }
             }
             if (canKeep) {

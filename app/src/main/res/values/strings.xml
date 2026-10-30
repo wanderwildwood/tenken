@@ -92,20 +92,25 @@
     <string name="about_terms_head">Terms</string>
     <string name="about_terms">This app is free software under the GNU General Public License. It comes with no warranty: use it at your own risk.</string>
     <string name="about_disclaimer_head">Diagnostics and safety</string>
-    <string name="about_disclaimer">Readings come from your car\'s own computer through an adapter and can be wrong. Do not use the app while driving. Have faults checked by a mechanic.</string>
+    <string name="about_disclaimer">What the app shows is information read from your car\'s own computer through an adapter, and it can be wrong. Do not rely on it for repairs or for safety decisions; have faults checked by a mechanic. The app only reads: it never writes to the car or changes anything in it. Do not use it while driving.</string>
     <string name="about_sources_head">What it reads</string>
     <string name="about_sources">It reads the standard OBD-II diagnostics through an ELM327 adapter. What a maker keeps for its own tools is out of its reach.</string>
     <string name="about_after">After AndrOBD by fr3ts0n, whose ELM327 protocol and tables of codes and readings this carries.</string>
-    <string name="about_licences_head">Licences</string>
-    <!-- The name of the app's licence -->
-    <string name="about_licence">Car Check: GNU General Public License v3 or later</string>
-    <string name="about_libraries">AndroidX and Kotlin: Apache 2.0. Lato typeface: SIL Open Font License 1.1.</string>
-    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
-    <!-- A web address that opens the app\'s source code -->
-    <string name="about_source">Source code: github.com/wanderwildwood/tenken</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
     <string name="about_feed_the_llamas">feed the llamas</string>
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
+    <!-- Licences page, opened from About -->
+    <string name="about_licences">Licences</string>
+    <string name="licences_title">Licences</string>
+    <string name="licences_source_head">Source code</string>
+    <string name="licences_licence_head">Licence</string>
+    <string name="licences_licence">Car Check is free software under the GNU General Public License, version 3 or later (GPL-3.0-or-later), copyright wander wildwood for what is written here, as the work it is built on allows. That work keeps its own licence and its authors keep their copyright, as listed under Built with. The full text is at the end of this page.</string>
+    <string name="licences_built_head">Built with</string>
+    <string name="licences_back">Back</string>
+    <string name="licences_no_browser">No browser is installed</string>
+    <string name="licences_gpl">GNU General Public License, version 3</string>
+    <string name="licences_apache">Apache License, version 2.0</string>
+    <string name="licences_ofl">SIL Open Font License, version 1.1</string>
 </resources>
