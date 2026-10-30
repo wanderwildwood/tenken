@@ -148,12 +148,7 @@ private fun LicenceLink(label: String, address: String) {
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
-            .clickable {
-                runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(address))) }
-                    .onFailure {
-                        Toast.makeText(context, context.getString(R.string.licences_no_browser), Toast.LENGTH_SHORT).show()
-                    }
-            }
+            .clickable { openLink(context, address, context.getString(R.string.about_no_browser_address, label)) }
             .wrapContentHeight(Alignment.CenterVertically),
     )
 }

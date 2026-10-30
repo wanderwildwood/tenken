@@ -58,6 +58,13 @@ fun HomeScreen(
         ) {
             item { Spacer(Modifier.height(8.dp)) }
             item { Connection(car, phone, onAllow, onOpenBluetooth, onChooseAdapter, onConnect, onDisconnect) }
+            item {
+                TextMMD(
+                    text = stringResource(R.string.home_safety_line),
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(top = 12.dp),
+                )
+            }
 
             if (car.link == Link.READY) {
                 item { Spacer(Modifier.height(12.dp)) }
