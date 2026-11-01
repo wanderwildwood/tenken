@@ -28,8 +28,8 @@ It is turned into the words and numbers on the screen and then thrown away. The 
 no history, no log of codes or readings, and no file of any kind holding them — including
 the car's identity number, which the vehicle information page shows and does not store.
 
-After a scan, **Remind me** and **Keep in Notes** hand the codes to the calendar app or the
-Notes app on the phone, if one is installed, and only when you press them. Nothing else
+After a scan, **Remind me** and **Keep in Memo** hand the codes to the calendar app or the
+Memo app on the phone, if one is installed, and only when you press them. Nothing else
 leaves the app, and Android's cloud backup is turned off for it (`allowBackup="false"`).
 
 The only things written to storage are the adapter you chose (its Bluetooth name and

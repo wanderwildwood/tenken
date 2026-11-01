@@ -32,7 +32,7 @@ sixteen greys, a slow redraw, and is read in a car park as often as in a garage.
 - **The freeze frame**: the engine as it was when the first stored code was set.
 - **Vehicle information**, where the car reports it: its identity number and calibrations.
 - **After a scan**, Remind me adds an event to the calendar, and Keep sends the codes to
-  Notes as a note, when that app is installed.
+  Memo as a note, when that app is installed.
 
 Metric or US units.
 
