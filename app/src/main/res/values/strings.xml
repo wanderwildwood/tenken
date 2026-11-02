@@ -97,7 +97,7 @@
     <string name="about_sources">It reads the standard OBD-II diagnostics through an ELM327 adapter. What a maker keeps for its own tools is out of its reach.</string>
     <string name="about_after">After AndrOBD by fr3ts0n, whose ELM327 protocol and tables of codes and readings this carries.</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
-    <string name="about_feed_the_llamas">feed the llamas</string>
+    <string name="about_feed_the_llamas">Feed the llamas</string>
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
     <!-- Licences page, opened from About -->
