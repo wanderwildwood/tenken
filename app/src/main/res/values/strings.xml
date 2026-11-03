@@ -101,16 +101,16 @@
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
     <!-- Licences page, opened from About -->
-    <string name="about_licences">Licences</string>
-    <string name="licences_title">Licences</string>
+    <string name="about_licences">Licenses</string>
+    <string name="licences_title">Licenses</string>
     <string name="licences_source_head">Source code</string>
-    <string name="licences_no_text">%s needs no licence text here.</string>
-    <string name="licences_licence">Car Check is free software under the GNU General Public License, version 3 or later (GPL-3.0-or-later), copyright wander wildwood for what is written here, as the work it is built on allows. That work keeps its own licence and its authors keep their copyright, as each on its own page.</string>
+    <string name="licences_no_text">%s needs no license text here.</string>
+    <string name="licences_licence">Car Check is free software under the GNU General Public License, version 3 or later (GPL-3.0-or-later), copyright wander wildwood for what is written here, as the work it is built on allows. That work keeps its own license and its authors keep their copyright, as each on its own page.</string>
     <string name="licences_back">Back</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="home_safety_line">Read-only. Do not use while driving. What it shows can be wrong.</string>
     <string name="licences_full_head">Full texts</string>
     <string name="licences_full_gpl">GNU General Public License v3 (full text)</string>
     <string name="licences_full_apache">Apache License 2.0 (full text)</string>
-    <string name="licences_full_ofl">SIL Open Font Licence 1.1 (full text)</string>
+    <string name="licences_full_ofl">SIL Open Font License 1.1 (full text)</string>
 </resources>

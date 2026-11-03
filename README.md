@@ -9,7 +9,7 @@ What the check-engine light is on for, read from the car through a Bluetooth OBD
 with it.
 
 Built for the [Mudita Kompakt](https://mudita.com/products/kompakt/), whose 4.3" panel has
-sixteen greys, a slow redraw, and is read in a car park as often as in a garage.
+sixteen grays, a slow redraw, and is read in a car park as often as in a garage.
 
 ## Screenshots
 
@@ -98,9 +98,9 @@ is Android views with gauges and charts.
 
 Icons are [Material Symbols](https://fonts.google.com/icons), Apache License 2.0.
 
-The app's own **Licences** page (About) lists the app and then every library it is built with, one row each; a row opens the author, website and full licence text, and the app's own page carries the source address and the GPL, so none of it depends on this repository.
+The app's own **Licenses** page (About) lists the app and then every library it is built with, one row each; a row opens the author, website and full license text, and the app's own page carries the source address and the GPL, so none of it depends on this repository.
 
-## Licence
+## License
 
 GNU General Public License v3.0 or later. See [LICENSE](LICENSE).
 
