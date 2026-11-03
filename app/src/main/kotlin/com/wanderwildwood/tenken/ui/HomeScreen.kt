@@ -1,5 +1,6 @@
 package com.wanderwildwood.tenken.ui
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -68,11 +69,11 @@ fun HomeScreen(
 
             if (car.link == Link.READY) {
                 item { Spacer(Modifier.height(12.dp)) }
-                item { HorizontalDividerMMD() }
+                item { DottedRule(start = 0.dp, end = 0.dp) }
                 item { Door(stringResource(R.string.home_codes)) { onOpen(Page.CODES) } }
-                item { Door(stringResource(R.string.home_live)) { onOpen(Page.LIVE) } }
-                item { Door(stringResource(R.string.home_freeze)) { onOpen(Page.FREEZE) } }
-                item { Door(stringResource(R.string.home_info)) { onOpen(Page.INFO) } }
+                item { Column { DottedRule(start = 0.dp, end = 0.dp); Door(stringResource(R.string.home_live)) { onOpen(Page.LIVE) } } }
+                item { Column { DottedRule(start = 0.dp, end = 0.dp); Door(stringResource(R.string.home_freeze)) { onOpen(Page.FREEZE) } } }
+                item { Column { DottedRule(start = 0.dp, end = 0.dp); Door(stringResource(R.string.home_info)) { onOpen(Page.INFO) } } }
             }
         }
     }

@@ -77,7 +77,7 @@ fun ReadingsScreen(car: CarState, page: Page, onClose: () -> Unit) {
                     car.readings.forEachIndexed { index, reading ->
                         // The rule goes with the row under it, so a page never opens on a rule alone.
                         item {
-                            if (index > 0) HorizontalDividerMMD()
+                            if (index > 0) DottedRule(start = 0.dp, end = 0.dp)
                             Line(reading)
                         }
                     }

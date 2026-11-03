@@ -106,14 +106,14 @@ fun CodesScreen(
                     item { Said(stringResource(R.string.codes_none)) }
                 else -> car.codes.forEach { code ->
                     item {
-                        HorizontalDividerMMD()
+                        DottedRule(start = 0.dp, end = 0.dp)
                         Code(code)
                     }
                 }
             }
 
             item { Spacer(Modifier.height(8.dp)) }
-            item { HorizontalDividerMMD() }
+            item { DottedRule(start = 0.dp, end = 0.dp) }
 
             car.cleared?.let { cleared -> item { Said(outcome(cleared)) } }
 
