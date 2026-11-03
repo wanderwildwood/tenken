@@ -9,7 +9,7 @@ What the check-engine light is on for, read from the car through a Bluetooth OBD
 with it.
 
 Built for the [Mudita Kompakt](https://mudita.com/products/kompakt/), whose 4.3" panel has
-sixteen grays, a slow redraw, and is read in a car park as often as in a garage.
+sixteen grays, a slow redraw, and is read in a parking lot as often as in a garage.
 
 ## Screenshots
 
