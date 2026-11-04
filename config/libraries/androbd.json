@@ -1,0 +1,8 @@
+{
+  "uniqueId": "androbd-library",
+  "name": "AndrOBD protocol library",
+  "description": "AndrOBD's ELM327 protocol code and its tables of trouble codes and readings, carried in this repository as source (the library module).",
+  "developers": [{ "name": "fr3ts0n" }],
+  "website": "https://github.com/fr3ts0n/AndrOBD",
+  "licenses": ["GPL-2.0-or-later"]
+}
