@@ -31,6 +31,7 @@ import com.wanderwildwood.tenken.ui.CodesScreen
 import com.wanderwildwood.tenken.ui.HomeScreen
 import com.wanderwildwood.tenken.ui.ReadingsScreen
 import com.wanderwildwood.tenken.ui.SettingsScreen
+import com.wanderwildwood.tenken.ui.houseTypography
 import com.wanderwildwood.tenken.ui.monochrome
 import com.wanderwildwood.tenken.ui.ArmedScope
 
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent {
-            ThemeMMD(colorScheme = monochrome) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
                 ArmedScope { CarCheck() }
             }
         }
