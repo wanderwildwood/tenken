@@ -32,6 +32,7 @@ import com.wanderwildwood.tenken.ui.HomeScreen
 import com.wanderwildwood.tenken.ui.ReadingsScreen
 import com.wanderwildwood.tenken.ui.SettingsScreen
 import com.wanderwildwood.tenken.ui.monochrome
+import com.wanderwildwood.tenken.ui.ArmedScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ThemeMMD(colorScheme = monochrome) {
-                CarCheck()
+                ArmedScope { CarCheck() }
             }
         }
     }

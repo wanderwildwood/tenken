@@ -10,7 +10,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,7 +29,6 @@ import com.wanderwildwood.tenken.core.TroubleCode
 import com.wanderwildwood.tenken.obd.CarState
 import com.wanderwildwood.tenken.obd.Cleared
 import com.wanderwildwood.tenken.obd.Link
-import kotlinx.coroutines.delay
 import java.text.DateFormat
 import java.util.Date
 
@@ -49,7 +47,7 @@ fun CodesScreen(
     onReadAgain: () -> Unit,
     onClear: () -> Unit,
 ) {
-    var clearArmed by remember { mutableStateOf(false) }
+    var clearArmed by rememberArmedFlag()
     var menu by remember { mutableStateOf(false) }
     val context = LocalContext.current
     // After a scan: what the car said, and two places it can go from here.
@@ -59,15 +57,8 @@ fun CodesScreen(
     val canRemind = remember { Elsewhere.answered(context, Elsewhere.reminder(reminderTitle, reminderText)) } && car.codes.isNotEmpty()
     val canKeep = remember { Elsewhere.answered(context, Elsewhere.note("", "")) }
 
-    // An armed row disarms itself, so a stray tap leaves nothing live for whoever picks the
-    // phone up next.
-    LaunchedEffect(clearArmed) {
-        if (clearArmed) {
-            delay(6000)
-            clearArmed = false
-        }
-    }
-
+    // Clear stays armed, with no timer, until the next other touch, Back, leaving the screen
+    // or the screen going off (shared Armed.kt).
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
