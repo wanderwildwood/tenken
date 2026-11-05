@@ -11,13 +11,14 @@
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
 
-    <!-- Only to know whether a calendar and Notes are there to offer them after a scan. -->
+    <!-- Only to know whether a calendar (Datebook first) and Notes are there to offer them after a scan. -->
     <queries>
         <intent>
             <action android:name="android.intent.action.INSERT" />
             <data android:mimeType="vnd.android.cursor.dir/event" />
         </intent>
         <package android:name="com.wanderwildwood.oboegaki" />
+        <package android:name="com.wanderwildwood.koyomi" />
         <!-- A real browser, for the links in About. -->
         <intent>
             <action android:name="android.intent.action.VIEW" />

@@ -14,6 +14,9 @@ object Elsewhere {
     /** Notes — oboegaki — which takes shared text with a subject as a new note of that title. */
     private const val NOTES_APP = "com.wanderwildwood.oboegaki"
 
+    /** Datebook — koyomi — which takes the reminder when it is on the phone. */
+    private const val DATEBOOK_APP = "com.wanderwildwood.koyomi"
+
     /** The reminder is for this time tomorrow, half an hour long: a calendar that insists on a time gets one. */
     fun reminderStart(now: Long): Long = now + DAY_MS
 
@@ -25,6 +28,16 @@ object Elsewhere {
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, reminderStart(now))
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, reminderStart(now) + HALF_HOUR_MS)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+    /**
+     * The reminder addressed to Datebook when Datebook answers it, so it goes straight there;
+     * otherwise the same request for whichever calendar the phone has, as before.
+     */
+    fun reminderFor(context: Context, title: String, description: String): Intent {
+        val unnamed = reminder(title, description)
+        val datebook = Intent(unnamed).setPackage(DATEBOOK_APP)
+        return if (answered(context, datebook)) datebook else unnamed
+    }
 
     private const val DAY_MS = 24L * 60 * 60 * 1000
     private const val HALF_HOUR_MS = 30L * 60 * 1000

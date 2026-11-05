@@ -54,7 +54,7 @@ fun CodesScreen(
     val scanned = car.link == Link.READY && !car.readingCodes && (car.codes.isNotEmpty() || car.milOn != null)
     val reminderTitle = stringResource(R.string.codes_reminder_title)
     val reminderText = car.codes.joinToString("\n") { listOf(it.code, it.description).filter(String::isNotBlank).joinToString(" — ") }
-    val canRemind = remember { Elsewhere.answered(context, Elsewhere.reminder(reminderTitle, reminderText)) } && car.codes.isNotEmpty()
+    val canRemind = remember { Elsewhere.answered(context, Elsewhere.reminderFor(context, reminderTitle, reminderText)) } && car.codes.isNotEmpty()
     val canKeep = remember { Elsewhere.answered(context, Elsewhere.note("", "")) }
 
     // Clear stays armed, with no timer, until the next other touch, Back, leaving the screen
@@ -150,7 +150,7 @@ fun CodesScreen(
                 Door(stringResource(R.string.codes_remind_me)) {
                     menu = false
                     // Built now, not when the screen opened, so the time it carries is the time of the tap.
-                    Elsewhere.open(context, Elsewhere.reminder(reminderTitle, reminderText))
+                    Elsewhere.open(context, Elsewhere.reminderFor(context, reminderTitle, reminderText))
                 }
             }
             if (canKeep) {
