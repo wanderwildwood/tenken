@@ -76,6 +76,7 @@ fun CodesScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            showCutRow = true,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
 

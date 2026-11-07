@@ -56,6 +56,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            showCutRow = true,
         ) {
             item { Spacer(Modifier.height(8.dp)) }
             item { Connection(car, phone, onAllow, onOpenBluetooth, onChooseAdapter, onConnect, onDisconnect) }
