@@ -1,6 +1,4 @@
-# Car Check
-
-点検 *tenken*
+# 点検 tenken — Car Check
 
 What the check-engine light is on for, read from the car through a Bluetooth OBD-II adapter
 — on an E Ink phone, in black and white, in words rather than symbols.
