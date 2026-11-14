@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.text.TextMMD
@@ -39,6 +40,7 @@ fun SettingsScreen(
     onChooseAdapter: () -> Unit,
     onUnits: () -> Unit,
 ) {
+    val context = LocalContext.current
     var aboutOpen by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -70,6 +72,13 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_units),
                     note = stringResource(if (phone.usUnits) R.string.settings_units_us else R.string.settings_units_metric),
                     onClick = onUnits,
+                )
+            }
+            item {
+                Door(
+                    title = stringResource(R.string.settings_dark),
+                    note = stringResource(if (DarkMode.on) R.string.settings_dark_on else R.string.settings_dark_off),
+                    onClick = { DarkMode.set(context, !DarkMode.on) },
                 )
             }
         }
