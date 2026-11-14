@@ -13,6 +13,8 @@
 
     <!-- Only to know whether a calendar (Datebook first) and Notes are there to offer them after a scan. -->
     <queries>
+        <!-- Home, whose dark mode switch this app follows when Home is installed. -->
+        <package android:name="com.wanderwildwood.iori" />
         <intent>
             <action android:name="android.intent.action.INSERT" />
             <data android:mimeType="vnd.android.cursor.dir/event" />
@@ -36,6 +38,12 @@
         android:roundIcon="@drawable/ic_launcher_mudita"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
+        <!-- Starts dark mode before the first screen is drawn. Holds no data. -->
+        <provider
+            android:name="com.wanderwildwood.tenken.ui.DarkModeInit"
+            android:authorities="${applicationId}.darkmodeinit"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
