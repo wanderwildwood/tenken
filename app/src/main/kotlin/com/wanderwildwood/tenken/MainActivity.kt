@@ -34,6 +34,7 @@ import com.wanderwildwood.tenken.ui.SettingsScreen
 import com.wanderwildwood.tenken.ui.houseTypography
 import com.wanderwildwood.tenken.ui.monochrome
 import com.wanderwildwood.tenken.ui.ArmedScope
+import com.wanderwildwood.tenken.ui.DarkSelection
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,9 +48,9 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent {
-            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) { DarkSelection {
                 ArmedScope { CarCheck() }
-            }
+            } }
         }
     }
 }
