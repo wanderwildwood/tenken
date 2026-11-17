@@ -62,6 +62,8 @@
 
     <!-- The pages of numbers -->
     <string name="readings_waiting">Waiting for the car…</string>
+    <!-- Above the numbers on a readings page once the car has stopped answering -->
+    <string name="readings_silent">The car has stopped answering. These are the last numbers it gave.</string>
     <string name="freeze_note">The engine as it was when the first stored code was set.</string>
     <string name="live_none">The car is not sending any live data.</string>
     <string name="freeze_none">There is no freeze frame. A car keeps one only while a code is stored.</string>
@@ -89,7 +91,7 @@
     <string name="about_title">Car Check %1$s</string>
     <string name="about_what">Reads what the check-engine light is on for, through a Bluetooth OBD-II adapter. Each code says whether it is stored or only pending, and clearing them tells you when the car refuses.</string>
     <string name="about_privacy_head">Privacy</string>
-    <string name="about_privacy">What the car says stays on this phone. The app has no internet access, so nothing is sent anywhere and nothing is collected about you. The one permission it asks for is Bluetooth, to talk to the adapter you pair. It remembers only which adapter you chose and your units. If you choose Remind me or Keep in Memo after a scan, the codes go to the calendar or Memo app on this phone, and nowhere else. There are no ads, no analytics and no tracking. \"Feed the llamas\" in About opens a donation page (square.link) in your browser, only when you press it. The app sends nothing there; if you give, the payment is handled on that page by Square, not by this app.</string>
+    <string name="about_privacy">What the car says stays on this phone. The app has no internet access, so nothing is sent anywhere and nothing is collected about you. The one permission it asks for is Bluetooth, to talk to the adapter you pair. It remembers only which adapter you chose, your units, whether dark mode is on, and whether you turned down the Bluetooth permission. If Home is installed, it asks Home whether dark mode is on, and sends it nothing. If you choose Remind me or Keep in Memo after a scan, the codes go to the calendar or Memo app on this phone, and nowhere else. There are no ads, no analytics and no tracking. \"Feed the llamas\" in About opens a donation page (square.link) in your browser, only when you press it. The app sends nothing there; if you give, the payment is handled on that page by Square, not by this app.</string>
     <string name="about_terms_head">Terms</string>
     <string name="about_terms">This app is free software under the GNU General Public License, version 3 or later. It comes with no warranty: use it at your own risk. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
     <string name="about_disclaimer_head">Diagnostics and safety</string>
@@ -109,7 +111,7 @@
     <string name="licences_licence">Car Check is free software under the GNU General Public License, version 3 or later (GPL-3.0-or-later), copyright wander wildwood for what is written here, as the work it is built on allows. That work keeps its own license and its authors keep their copyright, listed below.</string>
     <string name="licences_back">Back</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
-    <string name="home_safety_line">Read-only. Do not use while driving. What it shows can be wrong.</string>
+    <string name="home_safety_line">Do not use while driving. What it shows can be wrong.</string>
     <string name="licences_full_head">Full texts</string>
     <string name="licences_full_gpl">GNU General Public License v3 (full text)</string>
     <string name="licences_full_apache">Apache License 2.0 (full text)</string>

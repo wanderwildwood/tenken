@@ -61,16 +61,22 @@ private enum class Screen { HOME, PAGE, SETTINGS }
 private fun CarCheck(viewModel: CarViewModel = viewModel()) {
     val car by viewModel.car.state.collectAsStateWithLifecycle()
     val phone by viewModel.phone.collectAsStateWithLifecycle()
-    var screen by remember { mutableStateOf(Screen.HOME) }
-    var page by remember { mutableStateOf(Page.NONE) }
+    // Saveable, so a window built again opens where it was, on the page the car is still asked for.
+    var screen by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(Screen.HOME) }
+    var page by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(Page.NONE) }
     var choosing by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
+    // What Android said before asking, and when it was asked: a prompt only dismissed also
+    // comes back with no rationale, but not at once, and not after a "no" that had one.
+    val asked = remember { longArrayOf(0L, 0L) }
     val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         val activity = context as? ComponentActivity
-        val canAskAgain = activity != null &&
+        val rationale = activity != null &&
             ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.BLUETOOTH_CONNECT)
-        viewModel.permissionAnswered(granted, canAskAgain)
+        val hadRationale = asked[0] == 1L
+        val atOnce = System.currentTimeMillis() - asked[1] < 500
+        viewModel.permissionAnswered(granted, rationale || !(hadRationale || atOnce))
     }
     val allow = {
         // Once Android has stopped asking, the launcher answers "no" at once and shows
@@ -82,6 +88,10 @@ private fun CarCheck(viewModel: CarViewModel = viewModel()) {
                 )
             }
         } else {
+            val activity = context as? ComponentActivity
+            asked[0] = if (activity != null &&
+                ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.BLUETOOTH_CONNECT)) 1L else 0L
+            asked[1] = System.currentTimeMillis()
             ask.launch(Manifest.permission.BLUETOOTH_CONNECT)
         }
         Unit

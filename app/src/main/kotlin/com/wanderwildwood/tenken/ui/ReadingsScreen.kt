@@ -74,6 +74,8 @@ fun ReadingsScreen(car: CarState, page: Page, onClose: () -> Unit) {
                 car.readings.isEmpty() && patient -> item { Said(stringResource(R.string.readings_waiting)) }
                 car.readings.isEmpty() -> item { Said(stringResource(emptyOf(page))) }
                 else -> {
+                    // Numbers kept from before the car went quiet are not passed off as current.
+                    if (car.carSilent) item { Said(stringResource(R.string.readings_silent)) }
                     if (page == Page.FREEZE) item { Said(stringResource(R.string.freeze_note)) }
                     car.readings.forEachIndexed { index, reading ->
                         // The rule goes with the row under it, so a page never opens on a rule alone.

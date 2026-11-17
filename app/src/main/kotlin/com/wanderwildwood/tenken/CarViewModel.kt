@@ -51,6 +51,9 @@ class CarViewModel(app: Application) : AndroidViewModel(app) {
     val phone: StateFlow<PhoneState> = _phone.asStateFlow()
 
     init {
+        // AndrOBD's protocol library logs what the car says through java.util.logging, which
+        // Android sends to the system log. A released build says nothing there.
+        if (!BuildConfig.DEBUG) java.util.logging.Logger.getLogger("").level = java.util.logging.Level.OFF
         car.useUnits(if (_phone.value.usUnits) EcuDataItem.SYSTEM_IMPERIAL else EcuDataItem.SYSTEM_METRIC)
         refresh()
     }
