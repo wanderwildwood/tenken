@@ -49,6 +49,15 @@ class CarTest {
     }
 
     @Test
+    fun aSlowCarIsNotSaidToHaveNoCodesBeforeItHasAnsweredAllThree() {
+        fake.codeDelayMs = 300
+        car.open(Page.CODES)
+        waitFor("a reading to start") { car.state.value.readingCodes }
+        waitFor("it to finish") { !car.state.value.readingCodes }
+        assertEquals(2, car.state.value.codes.size)
+    }
+
+    @Test
     fun aRefusedClearIsReportedAndTheCodesStay() {
         car.open(Page.CODES)
         waitFor("the codes") { !car.state.value.readingCodes && car.state.value.codes.size == 2 }

@@ -110,6 +110,9 @@ class Car {
 
     // What was last sent, and whether the MIL answer is still to come.
     private val lastRequest = AtomicReference("")
+
+    /** Prompts seen for each of the code requests in the reading now going. */
+    private val codePrompts = HashMap<String, Int>()
     @Volatile private var awaitingMil = false
     @Volatile private var clearAnswer: ClearAnswer? = null
     @Volatile private var clearReplied = false
@@ -157,11 +160,14 @@ class Car {
 
             Thread({
                 handler.run()
-                // The read loop ends only when the link does.
-                worker.execute {
-                    if (mine == generation) {
-                        closeLink()
-                        _state.update { it.copy(link = Link.OFFLINE, failure = Failure.LOST, clearing = false) }
+                // The read loop ends only when the link does. The worker is gone once the
+                // screen that held the car has been let go: then there is nobody to tell.
+                runCatching {
+                    worker.execute {
+                        if (mine == generation) {
+                            closeLink()
+                            _state.update { it.copy(link = Link.OFFLINE, failure = Failure.LOST, clearing = false) }
+                        }
                     }
                 }
             }, "obd-rx").apply { isDaemon = true }.start()
@@ -248,6 +254,7 @@ class Car {
 
         if (page == Page.CODES) {
             awaitingMil = true
+            synchronized(codePrompts) { codePrompts.clear() }
             _state.update { it.copy(readingCodes = true) }
         }
         // The protocol ignores a request for the service it is already on, which would make
@@ -298,13 +305,22 @@ class Car {
             ClearAnswer.of(line)?.let { clearAnswer = it }
             if ('>' in line) clearReplied = true
         }
-        // The codes come as three requests, 03, 07 and 0A, always in that order. The prompt
-        // after the last is the end of the reading, whatever the car said to it.
-        if (request == "0A" && '>' in line && _state.value.readingCodes) {
-            worker.schedule({
-                snapshot()
-                _state.update { it.copy(readingCodes = false) }
-            }, 100, TimeUnit.MILLISECONDS)
+        // The codes come as three requests, 03, 07 and 0A, taken off a stack and so sent as 0A,
+        // 07, 03. The reading is over once each has had its prompt, whatever the car said; or
+        // once 03 has had two, which is the protocol asking it again after NO DATA and burying
+        // the rest. The service is then let go, so a NO DATA is not asked again for ever.
+        if (request in CODE_REQUESTS && '>' in line && _state.value.readingCodes) {
+            val done = synchronized(codePrompts) {
+                codePrompts[request] = (codePrompts[request] ?: 0) + 1
+                CODE_REQUESTS.all { (codePrompts[it] ?: 0) > 0 } || (codePrompts["03"] ?: 0) >= 2
+            }
+            if (done) {
+                worker.schedule({
+                    if (elm.service == ObdProt.OBD_SVC_READ_CODES) elm.setService(ObdProt.OBD_SVC_NONE, false)
+                    snapshot()
+                    _state.update { it.copy(readingCodes = false) }
+                }, 100, TimeUnit.MILLISECONDS)
+            }
         }
     }
 
@@ -397,6 +413,9 @@ class Car {
 
         /** Monitor status since the codes were cleared (01), and for this drive (41). */
         private val STATUS_PIDS = setOf(0x01, 0x41)
+
+        /** The three requests a reading of the codes is made of: stored, pending, permanent. */
+        private val CODE_REQUESTS = setOf("03", "07", "0A")
 
         private const val SNAPSHOT_MS = 1000L
         private const val CLEAR_WAIT_MS = 5000L

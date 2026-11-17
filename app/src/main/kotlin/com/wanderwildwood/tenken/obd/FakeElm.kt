@@ -37,6 +37,9 @@ class FakeElm : Adapter {
     /** How many clear requests to refuse before accepting one. */
     var refuseClears = 1
 
+    /** How long each of the three code requests takes to answer, as a slow car's would. */
+    @Volatile var codeDelayMs = 0L
+
     override fun open(): Pair<InputStream, OutputStream> {
         Thread(::serve, "fake-elm").apply { isDaemon = true }.start()
         return answers.input to requests.output
@@ -58,6 +61,7 @@ class FakeElm : Adapter {
                     '\r' -> {
                         val request = line.toString().uppercase().replace(" ", "")
                         line.clear()
+                        if (request in setOf("03", "07", "0A") && codeDelayMs > 0) Thread.sleep(codeDelayMs)
                         if (request.isNotEmpty()) reply(answer(request))
                     }
                     '\n' -> Unit
