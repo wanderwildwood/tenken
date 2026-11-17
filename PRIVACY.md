@@ -33,8 +33,10 @@ Memo app on the phone, if one is installed, and only when you press them. Nothin
 leaves the app, and Android's cloud backup is turned off for it (`allowBackup="false"`).
 
 The only things written to storage are the adapter you chose (its Bluetooth name and
-address) and whether you want metric or US units, in `SharedPreferences`; see
-`CarViewModel.kt`.
+address), whether you want metric or US units, and whether you turned down the Bluetooth
+permission, in `SharedPreferences` (see `CarViewModel.kt`), and whether dark mode is on
+(`ui/DarkMode.kt`). When Home is installed, the app reads Home's dark mode switch, a yes or
+no, and sends Home nothing.
 
 ## No analytics
 

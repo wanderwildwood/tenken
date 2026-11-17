@@ -96,7 +96,7 @@ is Android views with gauges and charts.
 
 Icons are [Material Symbols](https://fonts.google.com/icons), Apache License 2.0.
 
-The **Licenses** drawer in the app's About lists the app and then every library it is built with, one small drawer each; an open one shows the author, website and full license text, and the app's own line carries the GPL, so none of it depends on this repository.
+**Licenses** in the app's About opens a page that lists the app and then every library it is built with, each with its author, website and full license text; the app's own entry carries the GPL, so none of it depends on this repository.
 
 ## License
 
