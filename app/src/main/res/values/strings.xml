@@ -93,7 +93,7 @@
     <string name="about_terms_head">Terms</string>
     <string name="about_terms">This app is free software under the GNU General Public License, version 3 or later. It comes with no warranty: use it at your own risk. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
     <string name="about_disclaimer_head">Diagnostics and safety</string>
-    <string name="about_disclaimer">What the app shows is information read from your car\'s own computer through an adapter, and it can be wrong. Do not rely on it for repairs or for safety decisions; have faults checked by a mechanic. The app only reads: it never writes to the car or changes anything in it. Do not use it while driving.</string>
+    <string name="about_disclaimer">What the app shows is information read from your car\'s own computer through an adapter, and it can be wrong. Do not rely on it for repairs or for safety decisions; have faults checked by a mechanic. The app reads; the one thing it ever asks the car to change is clearing the codes, and only when you tap Clear the codes twice. Do not use it while driving.</string>
     <string name="about_sources_head">What it reads</string>
     <string name="about_sources">It reads the standard OBD-II diagnostics through an ELM327 adapter. What a maker keeps for its own tools is out of its reach.</string>
     <string name="about_after">After AndrOBD by fr3ts0n, whose ELM327 protocol and tables of codes and readings this carries.</string>

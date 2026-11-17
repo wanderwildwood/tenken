@@ -69,8 +69,8 @@ There is no `INTERNET` in that list, which is the claim above without having to 
 
 What the app shows is information read from your car's own computer through an adapter, and it
 can be wrong. Do not rely on it for repairs or for safety decisions; have faults checked by a
-mechanic. The app only reads: it never writes to the car or changes anything in it. Do not use
-it while driving. The app is free software under the
+mechanic. The app reads; the one thing it ever asks the car to change is clearing the codes, and
+only when you tap Clear the codes twice. Do not use it while driving. The app is free software under the
 GNU General Public License and comes with no warranty.
 
 <!-- shared-about privacy section -->
