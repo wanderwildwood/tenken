@@ -21,8 +21,8 @@ sixteen grays, a slow redraw, and is read in a parking lot as often as in a gara
   (confirmed, and lighting the lamp), *pending* (seen once, not yet confirmed), or
   *permanent* (kept by the car until it has seen for itself that the fault is gone). Whether
   the check-engine light is on is the first line.
-- **Clearing the codes**, on a row you tap twice, which warns that the emissions readiness
-  goes with them. If the car refuses — and most refuse with the engine running — it says
+- **Clearing the codes**, on a row you tap twice (the one thing it asks the car to change;
+  everything else only reads), which warns that the emissions readiness goes with them. If the car refuses — and most refuse with the engine running — it says
   so and why, rather than leaving the old codes on the screen as though nothing had been
   asked.
 - **Live data**: engine speed, coolant, fuel trims, load, and whatever else the car
@@ -32,11 +32,13 @@ sixteen grays, a slow redraw, and is read in a parking lot as often as in a gara
 - **After a scan**, Remind me adds an event to the calendar, and Keep sends the codes to
   Memo as a note, when that app is installed.
 
-Metric or US units.
+Metric or US units. Dark mode, from its own switch in Settings, or following the phone's dark
+setting.
 
 ## What it needs
 
-A **Bluetooth ELM327 adapter** — the small plug-in kind sold under a dozen names —
+Android 12 or newer, and a **Bluetooth ELM327 adapter** — the small plug-in kind sold under a
+dozen names —
 **paired in the phone's own Bluetooth settings** first. Most take the PIN 1234. Choose it
 once in the app and it is remembered.
 
