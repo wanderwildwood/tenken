@@ -4,6 +4,8 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
+import java.time.Instant
+import java.time.ZoneId
 
 /**
  * Where a scan can go from here: a reminder in the calendar, and the codes kept in Notes. Each
@@ -17,8 +19,12 @@ object Elsewhere {
     /** Datebook — koyomi — which takes the reminder when it is on the phone. */
     private const val DATEBOOK_APP = "com.wanderwildwood.koyomi"
 
-    /** The reminder is for this time tomorrow, half an hour long: a calendar that insists on a time gets one. */
-    fun reminderStart(now: Long): Long = now + DAY_MS
+    /**
+     * The reminder is for this time tomorrow, half an hour long: a calendar that insists on a
+     * time gets one. Tomorrow by the phone's clock, so a night the clocks change is not an hour out.
+     */
+    fun reminderStart(now: Long, zone: ZoneId = ZoneId.systemDefault()): Long =
+        Instant.ofEpochMilli(now).atZone(zone).plusDays(1).toInstant().toEpochMilli()
 
     fun reminder(title: String, description: String, now: Long = System.currentTimeMillis()): Intent =
         Intent(Intent.ACTION_INSERT)
@@ -39,7 +45,6 @@ object Elsewhere {
         return if (answered(context, datebook)) datebook else unnamed
     }
 
-    private const val DAY_MS = 24L * 60 * 60 * 1000
     private const val HALF_HOUR_MS = 30L * 60 * 1000
 
     fun note(title: String, text: String): Intent = Intent(Intent.ACTION_SEND)
