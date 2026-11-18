@@ -35,26 +35,44 @@ class BluetoothAdapterLink(private val device: BluetoothDevice) : Adapter {
 
     override val name: String = device.name ?: device.address
 
+    // Held while it is still connecting too, so that close() can cut short an attempt that
+    // would otherwise block for as long as the radio keeps trying.
     @Volatile private var socket: BluetoothSocket? = null
+    /** One link per connection: once closed, it stays closed. */
+    @Volatile private var closed = false
 
     override fun open(): Pair<InputStream, OutputStream> {
         val byRecord = device.createInsecureRfcommSocketToServiceRecord(SPP)
+        socket = byRecord
         val opened = try {
+            if (closed) throw IOException("Closed before connecting to $name")
             byRecord.also { it.connect() }
         } catch (first: IOException) {
             runCatching { byRecord.close() }
+            if (closed) throw IOException("Closed while connecting to $name", first)
             try {
                 val channel = device.javaClass.getMethod("createRfcommSocket", Int::class.javaPrimitiveType)
-                (channel.invoke(device, 1) as BluetoothSocket).also { it.connect() }
+                val byChannel = channel.invoke(device, 1) as BluetoothSocket
+                socket = byChannel
+                if (closed) {
+                    runCatching { byChannel.close() }
+                    throw IOException("Closed while connecting to $name")
+                }
+                byChannel.also { it.connect() }
             } catch (second: Exception) {
+                runCatching { socket?.close() }
                 throw IOException("Could not connect to $name", first)
             }
         }
-        socket = opened
+        if (closed) {
+            runCatching { opened.close() }
+            throw IOException("Closed while connecting to $name")
+        }
         return opened.inputStream to opened.outputStream
     }
 
     override fun close() {
+        closed = true
         runCatching { socket?.close() }
         socket = null
     }

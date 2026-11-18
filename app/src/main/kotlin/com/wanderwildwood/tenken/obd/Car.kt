@@ -102,7 +102,7 @@ class Car {
     private val worker = Executors.newSingleThreadScheduledExecutor { Thread(it, "obd").apply { isDaemon = true } }
     private var ticker: ScheduledFuture<*>? = null
 
-    private var adapter: Adapter? = null
+    @Volatile private var adapter: Adapter? = null
     private var stream: StreamHandler? = null
 
     /** A generation per connection, so a stale thread's last word is ignored. */
@@ -190,6 +190,9 @@ class Car {
     }
 
     fun disconnect() {
+        // An attempt still connecting holds the worker for as long as the radio keeps trying.
+        // Closing the adapter from here cuts it short; the rest follows on the worker.
+        if (_state.value.link == Link.CONNECTING) adapter?.close()
         worker.execute {
             generation++
             closeLink()
