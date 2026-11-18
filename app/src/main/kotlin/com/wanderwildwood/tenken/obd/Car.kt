@@ -335,7 +335,11 @@ class Car {
                 worker.schedule({
                     if (elm.service == ObdProt.OBD_SVC_READ_CODES) elm.setService(ObdProt.OBD_SVC_NONE, false)
                     snapshot()
-                    _state.update { it.copy(readingCodes = false) }
+                    // No answer to 01 01 this time: say nothing of the lamp rather than what an
+                    // earlier reading said.
+                    val milUnheard = awaitingMil
+                    awaitingMil = false
+                    _state.update { it.copy(readingCodes = false, milOn = if (milUnheard) null else it.milOn) }
                 }, 100, TimeUnit.MILLISECONDS)
             }
         }
@@ -351,8 +355,10 @@ class Car {
                 if (addresses.size > 1) chooseEcu(addresses)?.let { worker.execute { elm.setEcuAddress(it) } }
             }
 
-            ObdProt.PROP_NUM_CODES -> if (awaitingMil) {
-                // The first count after asking is the answer to 01 01, whose top bit is the lamp.
+            // The answer to 01 01, whose top bit is the lamp. A 03, 07 or 0A answer on CAN also
+            // gives a count, with no lamp in it, so only one heard while 01 01 is the last
+            // request sent is taken.
+            ObdProt.PROP_NUM_CODES -> if (awaitingMil && lastRequest.get() == "0101") {
                 awaitingMil = false
                 val value = (event.newValue as? Int) ?: return
                 _state.update { it.copy(milOn = value and 0x80 != 0) }

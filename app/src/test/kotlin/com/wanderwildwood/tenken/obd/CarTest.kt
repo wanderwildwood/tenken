@@ -72,6 +72,16 @@ class CarTest {
     }
 
     @Test
+    fun theLampIsNotReadFromACodeCountWhen0101GoesUnanswered() {
+        fake.codeDelayMs = 300
+        fake.noDataFor = setOf("0101")
+        car.open(Page.CODES)
+        waitFor("a reading to start") { car.state.value.readingCodes }
+        waitFor("it to finish") { !car.state.value.readingCodes }
+        assertEquals(null, car.state.value.milOn)
+    }
+
+    @Test
     fun aRefusedClearIsReportedAndTheCodesStay() {
         car.open(Page.CODES)
         waitFor("the codes") { !car.state.value.readingCodes && car.state.value.codes.size == 2 }
