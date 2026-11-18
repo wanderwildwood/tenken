@@ -58,6 +58,20 @@ class CarTest {
     }
 
     @Test
+    fun aCarWithNothingToSayTo03And0AStillHasItsPendingCodeRead() {
+        // Slow enough that a reading ended before 07 is sent would end with no codes.
+        fake.codeDelayMs = 300
+        fake.noDataFor = setOf("03", "0A")
+        car.open(Page.CODES)
+        waitFor("a reading to start") { car.state.value.readingCodes }
+        waitFor("it to finish") { !car.state.value.readingCodes }
+        val codes = car.state.value.codes
+        assertEquals(1, codes.size)
+        assertEquals("P0301", codes[0].code)
+        assertEquals(CodeKind.PENDING, codes[0].kind)
+    }
+
+    @Test
     fun aRefusedClearIsReportedAndTheCodesStay() {
         car.open(Page.CODES)
         waitFor("the codes") { !car.state.value.readingCodes && car.state.value.codes.size == 2 }

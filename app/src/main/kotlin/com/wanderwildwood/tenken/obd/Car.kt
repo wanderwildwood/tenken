@@ -306,13 +306,19 @@ class Car {
             if ('>' in line) clearReplied = true
         }
         // The codes come as three requests, 03, 07 and 0A, taken off a stack and so sent as 0A,
-        // 07, 03. The reading is over once each has had its prompt, whatever the car said; or
-        // once 03 has had two, which is the protocol asking it again after NO DATA and burying
-        // the rest. The service is then let go, so a NO DATA is not asked again for ever.
+        // 07, 03. The reading is over once each has had its prompt, whatever the car said.
+        // After a NO DATA the protocol puts another 03 on top of the stack, so a car that has
+        // nothing to say to 03 is asked it again for ever while 07 waits under it. A second 03
+        // prompt lets the service go here, before the protocol acts on that prompt, so no
+        // further 03 is queued and the 07 still under it goes out. Letting go of the service
+        // only sets a field, which is why it is safe on this thread.
         if (request in CODE_REQUESTS && '>' in line && _state.value.readingCodes) {
             val done = synchronized(codePrompts) {
                 codePrompts[request] = (codePrompts[request] ?: 0) + 1
-                CODE_REQUESTS.all { (codePrompts[it] ?: 0) > 0 } || (codePrompts["03"] ?: 0) >= 2
+                if ((codePrompts["03"] ?: 0) >= 2 && elm.service == ObdProt.OBD_SVC_READ_CODES) {
+                    elm.setService(ObdProt.OBD_SVC_NONE, false)
+                }
+                CODE_REQUESTS.all { (codePrompts[it] ?: 0) > 0 }
             }
             if (done) {
                 worker.schedule({

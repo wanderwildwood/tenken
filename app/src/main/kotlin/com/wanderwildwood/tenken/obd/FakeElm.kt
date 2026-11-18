@@ -40,6 +40,9 @@ class FakeElm : Adapter {
     /** How long each of the three code requests takes to answer, as a slow car's would. */
     @Volatile var codeDelayMs = 0L
 
+    /** Requests answered with NO DATA, the way an older car answers what it does not do. */
+    @Volatile var noDataFor: Set<String> = emptySet()
+
     override fun open(): Pair<InputStream, OutputStream> {
         Thread(::serve, "fake-elm").apply { isDaemon = true }.start()
         return answers.input to requests.output
@@ -81,6 +84,7 @@ class FakeElm : Adapter {
     /** The answer to one request, as the lines an adapter would send before its prompt. */
     internal fun answer(request: String): List<String> {
         if (request.startsWith("AT")) return listOf(at(request.removePrefix("AT")))
+        if (request in noDataFor) return listOf("NODATA")
         val data = obd(request) ?: return listOf("NODATA")
         return listOf(if (headers) frame(data) else data)
     }
