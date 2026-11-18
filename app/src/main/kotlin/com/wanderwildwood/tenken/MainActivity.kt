@@ -64,6 +64,15 @@ private fun CarCheck(viewModel: CarViewModel = viewModel()) {
     // Saveable, so a window built again opens where it was, on the page the car is still asked for.
     var screen by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(Screen.HOME) }
     var page by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(Page.NONE) }
+    // That holds while the car outlives the window. After Android has let the whole app go,
+    // the page comes back but a new car, with no link and no page, does not: start at Home
+    // then, where Connect is, rather than on a page with nobody talking. Checked once.
+    val restored = remember { booleanArrayOf(screen == Screen.PAGE && viewModel.car.state.value.page != page) }
+    if (restored[0]) {
+        restored[0] = false
+        screen = Screen.HOME
+        page = Page.NONE
+    }
     var choosing by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
