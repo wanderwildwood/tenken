@@ -100,11 +100,11 @@ Icons are [Material Symbols](https://fonts.google.com/icons), Apache License 2.0
 
 ## License
 
-GNU General Public License v3.0 or later. See [LICENSE](LICENSE).
+GNU General Public License, version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 Copyright © wander wildwood.
 
 This program incorporates AndrOBD, Copyright © fr3ts0n, whose files are licensed under the
-GNU General Public License version 2 or, at your option, any later version. That grant is
-not mine to narrow, so this app carries it forward as version 3 or later rather than this
-shop's usual version 3 only.
+GNU General Public License version 2 or, at your option, any later version. The app takes
+that option at version 3, so the app as a whole is GPL-3.0-only; AndrOBD's own files keep
+their own license and notices.

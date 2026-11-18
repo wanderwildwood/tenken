@@ -93,7 +93,7 @@
     <string name="about_privacy_head">Privacy</string>
     <string name="about_privacy">What the car says stays on this phone. The app has no internet access, so nothing is sent anywhere and nothing is collected about you. The one permission it asks for is Bluetooth, to talk to the adapter you pair. It remembers only which adapter you chose, your units, whether dark mode is on, and whether you turned down the Bluetooth permission. If Home is installed, it asks Home whether dark mode is on, and sends it nothing. If you choose Remind me or Keep in Memo after a scan, the codes go to the calendar or Memo app on this phone, and nowhere else. There are no ads, no analytics and no tracking. \"Feed the llamas\" in About opens a donation page (square.link) in your browser, only when you press it. The app sends nothing there; if you give, the payment is handled on that page by Square, not by this app.</string>
     <string name="about_terms_head">Terms</string>
-    <string name="about_terms">This app is free software under the GNU General Public License, version 3 or later. It comes with no warranty: use it at your own risk. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
+    <string name="about_terms">This app is free software under the GNU General Public License, version 3 only. It comes with no warranty: use it at your own risk. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
     <string name="about_disclaimer_head">Diagnostics and safety</string>
     <string name="about_disclaimer">What the app shows is information read from your car\'s own computer through an adapter, and it can be wrong. Do not rely on it for repairs or for safety decisions; have faults checked by a mechanic. The app reads; the one thing it ever asks the car to change is clearing the codes, and only when you tap Clear the codes twice. Do not use it while driving.</string>
     <string name="about_sources_head">What it reads</string>
@@ -108,7 +108,7 @@
     <string name="licences_title">Licenses</string>
     <string name="licences_source_head">Source code</string>
     <string name="licences_no_text">%s needs no license text here.</string>
-    <string name="licences_licence">Car Check is free software under the GNU General Public License, version 3 or later (GPL-3.0-or-later), copyright wander wildwood for what is written here, as the work it is built on allows. That work keeps its own license and its authors keep their copyright, listed below.</string>
+    <string name="licences_licence">Car Check is free software under the GNU General Public License, version 3 only (GPL-3.0-only), copyright wander wildwood for what is written here, as the work it is built on allows. That work keeps its own license and its authors keep their copyright, listed below.</string>
     <string name="licences_back">Back</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="home_safety_line">Do not use while driving. What it shows can be wrong.</string>
