@@ -151,7 +151,18 @@ class Car {
             }
 
             val handler = StreamHandler(input, output)
-            handler.setMessageHandler(TelegramListener { line -> heard(String(line)); elm.handleTelegram(line) })
+            handler.setMessageHandler(
+                TelegramListener { line ->
+                    val text = String(line)
+                    val request = lastRequest.get()
+                    heard(text)
+                    elm.handleTelegram(line)
+                    // A clear is sent once. On NO DATA or a bus error the protocol queues the 04
+                    // again, to go out after the clear has been reported and the codes read back;
+                    // a car that took it then would lose its codes behind the screen's back.
+                    if (request == "04" && '>' in text) ObdProt.dropQueued("04")
+                },
+            )
             stream = handler
             // The watcher first, so a request is on record before it is on the wire, and a
             // quick answer can never arrive ahead of it.

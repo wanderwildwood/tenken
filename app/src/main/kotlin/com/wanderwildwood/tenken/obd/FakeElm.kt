@@ -43,6 +43,10 @@ class FakeElm : Adapter {
     /** Requests answered with NO DATA, the way an older car answers what it does not do. */
     @Volatile var noDataFor: Set<String> = emptySet()
 
+    /** How many requests to clear the codes have arrived. */
+    @Volatile var clearsHeard = 0
+        private set
+
     override fun open(): Pair<InputStream, OutputStream> {
         Thread(::serve, "fake-elm").apply { isDaemon = true }.start()
         return answers.input to requests.output
@@ -64,6 +68,7 @@ class FakeElm : Adapter {
                     '\r' -> {
                         val request = line.toString().uppercase().replace(" ", "")
                         line.clear()
+                        if (request == "04") clearsHeard++
                         if (request in setOf("03", "07", "0A") && codeDelayMs > 0) Thread.sleep(codeDelayMs)
                         if (request.isNotEmpty()) reply(answer(request))
                     }

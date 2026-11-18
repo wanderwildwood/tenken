@@ -809,6 +809,23 @@ public class ObdProt extends ProtoHeader
     }
 
     /**
+     * Take every queued copy of one request off the command queue, so a request that has
+     * already had its answer is not sent again unasked.
+     * @param telegram the request, as it is queued (e.g. "04")
+     */
+    public static void dropQueued(String telegram)
+    {
+        synchronized (cmdStack)
+        {
+            java.util.Iterator<String> it = cmdStack.iterator();
+            while (it.hasNext())
+            {
+                if (it.next().trim().equalsIgnoreCase(telegram)) { it.remove(); }
+            }
+        }
+    }
+
+    /**
      * reset all protocol settings
      */
     public void reset()

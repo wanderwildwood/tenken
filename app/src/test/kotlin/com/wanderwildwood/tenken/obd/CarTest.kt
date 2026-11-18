@@ -89,6 +89,22 @@ class CarTest {
     }
 
     @Test
+    fun aClearAnsweredWithNoDataIsNotSentAgain() {
+        car.open(Page.CODES)
+        waitFor("the codes") { !car.state.value.readingCodes && car.state.value.codes.size == 2 }
+
+        fake.noDataFor = setOf("04")
+        car.clear()
+        waitFor("the answer") { car.state.value.cleared != null }
+        assertEquals(Cleared.NoAnswer, car.state.value.cleared)
+        waitFor("the codes read back") { !car.state.value.readingCodes }
+        // Long enough for a queued 04 to have gone out behind the reading.
+        Thread.sleep(1500)
+        assertEquals(1, fake.clearsHeard)
+        assertEquals(2, car.state.value.codes.size)
+    }
+
+    @Test
     fun readingThemAgainAsksTheCarAgain() {
         car.open(Page.CODES)
         waitFor("the codes") { !car.state.value.readingCodes && car.state.value.codes.size == 2 }
