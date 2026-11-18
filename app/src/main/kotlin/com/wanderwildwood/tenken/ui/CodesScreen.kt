@@ -55,7 +55,7 @@ fun CodesScreen(
     val reminderTitle = stringResource(R.string.codes_reminder_title)
     val reminderText = car.codes.joinToString("\n") { listOf(it.code, it.description).filter(String::isNotBlank).joinToString(" — ") }
     val canRemind = remember { Elsewhere.answered(context, Elsewhere.reminderFor(context, reminderTitle, reminderText)) } && car.codes.isNotEmpty()
-    val canKeep = remember { Elsewhere.answered(context, Elsewhere.note("", "")) }
+    val canKeep = remember { Elsewhere.canKeep(context) }
 
     // Clear stays armed, with no timer, until the next other touch, Back, leaving the screen
     // or the screen going off (shared Armed.kt).

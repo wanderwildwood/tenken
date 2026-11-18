@@ -9,15 +9,16 @@ import java.time.ZoneId
 
 /**
  * Where a scan can go from here: a reminder in the calendar, and the codes kept in Notes. Each
- * is offered only when an app on the phone answers it.
+ * is offered only when an app on the phone answers it. Notes and Datebook are handed anything
+ * only when they are the real ones, signed with their release certificates ([HouseApps]).
  */
 object Elsewhere {
 
     /** Notes — oboegaki — which takes shared text with a subject as a new note of that title. */
-    private const val NOTES_APP = "com.wanderwildwood.oboegaki"
+    private const val NOTES_APP = HouseApps.MEMO
 
     /** Datebook — koyomi — which takes the reminder when it is on the phone. */
-    private const val DATEBOOK_APP = "com.wanderwildwood.koyomi"
+    private const val DATEBOOK_APP = HouseApps.DATEBOOK
 
     /**
      * The reminder is for this time tomorrow, half an hour long: a calendar that insists on a
@@ -36,13 +37,12 @@ object Elsewhere {
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     /**
-     * The reminder addressed to Datebook when Datebook answers it, so it goes straight there;
-     * otherwise the same request for whichever calendar the phone has, as before.
+     * The reminder addressed to Datebook when the real Datebook answers it, so it goes straight
+     * there; otherwise the same request for whichever calendar the phone has, as before.
      */
     fun reminderFor(context: Context, title: String, description: String): Intent {
         val unnamed = reminder(title, description)
-        val datebook = Intent(unnamed).setPackage(DATEBOOK_APP)
-        return if (answered(context, datebook)) datebook else unnamed
+        return HouseApps.aimed(context, unnamed, DATEBOOK_APP) ?: unnamed
     }
 
     private const val HALF_HOUR_MS = 30L * 60 * 1000
@@ -52,6 +52,9 @@ object Elsewhere {
         .setPackage(NOTES_APP)
         .putExtra(Intent.EXTRA_SUBJECT, title)
         .putExtra(Intent.EXTRA_TEXT, text)
+
+    /** Whether the real Notes is on the phone to keep the codes. */
+    fun canKeep(context: Context): Boolean = HouseApps.aimed(context, note("", ""), NOTES_APP) != null
 
     fun answered(context: Context, intent: Intent): Boolean =
         context.packageManager.queryIntentActivities(intent, 0).isNotEmpty()
