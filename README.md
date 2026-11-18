@@ -52,8 +52,10 @@ manufacturer-specific beyond a code's number — is out of its reach.
 ## What it does not do
 
 There is no account, no history and no network. The app holds nothing between one run and
-the next except which adapter you chose and which units. What the car says stays on the
-phone; see [PRIVACY.md](PRIVACY.md).
+the next except which adapter you chose, which units, whether dark mode is on, and whether
+you turned down the Bluetooth permission. When Home is installed, it reads Home's dark mode
+switch and sends Home nothing. What the car says stays on the phone; see
+[PRIVACY.md](PRIVACY.md).
 
 ## Getting it, and keeping it
 
